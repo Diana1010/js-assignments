@@ -16,7 +16,7 @@
  * @param {string} value2
  * @return {string}
  *
- 
+
  * @example
  *   'aa', 'bb' => 'aabb'
  *   'aa',''    => 'aa'
@@ -146,7 +146,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    throw new Error('Not implemented');
+     return str.replace('<', '').replace('>', '');
 }
 
 
@@ -202,7 +202,28 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    throw new Error('Not implemented');
+  let result = '';
+  result += '┌';
+  	for (let i = 1; i < width - 1; i++) {
+  		result += '─';
+  	}
+  	result += '┐\n';
+
+  	for (let j = 1; j < height - 1; j++) {
+  		result += '│';
+  		for (let i = 1; i < width - 1; i++) {
+  			result += ' ';
+  		}
+  		result += '│\n';
+  	}
+
+  	result += '└';
+  	for (let i = 1; i < width - 1; i++) {
+  		result += '─';
+  	}
+  	result += '┘\n';
+
+      return result;
 }
 
 
@@ -222,7 +243,19 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    throw new Error('Not implemented');
+  let inp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let out = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  let ind, result = '';
+  for (let i = 0; i < str.length; i++) {
+      ind = inp.indexOf(str[i]);
+      if (ind > -1) {
+          result += out[ind];
+      }
+      else {
+          result += str[i];
+      }
+  }
+  return result;
 }
 
 /**
@@ -239,7 +272,7 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+     return (typeof value === "string" || value instanceof String);
 }
 
 
