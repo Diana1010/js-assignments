@@ -16,6 +16,7 @@
  * @param {string} value2
  * @return {string}
  *
+ 
  * @example
  *   'aa', 'bb' => 'aabb'
  *   'aa',''    => 'aa'
