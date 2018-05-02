@@ -13,7 +13,8 @@
  * '{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}',
  * гед X - шестнадцатеричное число (0,1,2...,9,A,a,B,b,C,c,D,d,F,f)
  *
- * Больше информации по ссылке: https://en.wikipedia.org/wiki/Globally_unique_identifier
+ * Больше информации по ссылке: https://en.wikiped
+ ia.org/wiki/Globally_unique_identifier
  *
  *  Match :
  *   '{3F2504E0-4F89-41D3-9A0C-0305E82C3301}'
@@ -53,7 +54,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-   return /^(pi|s|r)/;
+   return /^(pi|s|re)/;
 }
 
 
@@ -73,7 +74,7 @@ function getRegexForPitSpot() {
  */
 function getRegexForIPv4() {
   var  n = '([01]?[0-9][0-9]?|2[0-4][0-9]|25[0-5])';
-   return new RegExp('^' + n + '(\.' + n + '){3}$');
+   return new RegExp('^' + n + '\.' + n + '\.' + n+'\.' + n+'$');
 }
 
 
@@ -118,7 +119,7 @@ function getRegexForSSN() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
-  return new RegExp("^(?=[A-Za-z0-9]{"+ minLength + ",})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])")
+  return new RegExp('^(?=[A-Za-z0-9]{'+ minLength + ",})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])");
 }
 
 
