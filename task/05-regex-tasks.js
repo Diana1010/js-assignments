@@ -93,7 +93,7 @@ function getRegexForIPv4() {
  * @return {RegExp}
  */
 function getRegexForSSN() {
-   throw new Error('Not implemented');
+  return /^(?!000)[0-9]{3}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/;
 }
 
 
@@ -118,7 +118,7 @@ function getRegexForSSN() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
-   throw new Error('Not implemented');
+  return new RegExp("^(?=[A-Za-z0-9]{"+ minLength + ",})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])")
 }
 
 
