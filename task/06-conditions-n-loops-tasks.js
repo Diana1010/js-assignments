@@ -317,7 +317,12 @@ function isCreditCardNumber(ccn) {
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
 function getDigitalRoot(num) {
-    throw new Error('Not implemented');
+  let sum = 0;
+  let str = String(num);
+  for (let i = 0; i < str.length; i++) {
+      sum += Number(str[i]);
+  }
+  return sum > 9 ? getDigitalRoot(sum) : sum;
 }
 
 
@@ -344,7 +349,22 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-    throw new Error('Not implemented');
+  let openBrackets = ['{', '(', '[', '<'];
+      let closedBrackets = ['}', ')', ']', '>'];
+      let stack = [];
+
+      for (let i = 0; i < str.length; i++) {
+          let char = str[i];
+          if (openBrackets.indexOf(char) > -1) {
+              stack.push(char);
+          }
+          else {
+              let last = closedBrackets.indexOf(char);
+              let previous = openBrackets.indexOf(stack.pop());
+              if (last < 0 || last != previous )  return false;
+          }
+      }
+      return stack.length == 0;
 }
 
 
@@ -377,10 +397,27 @@ function isBracketsBalanced(str) {
  *   Date('2000-01-01 01:00:00.100'), Date('2000-01-01 01:00:05.000')  => '5 minutes ago'
  *   Date('2000-01-01 01:00:00.100'), Date('2000-01-02 03:00:05.000')  => 'a day ago'
  *   Date('2000-01-01 01:00:00.100'), Date('2015-01-02 03:00:05.000')  => '15 years ago'
- *
  */
 function timespanToHumanString(startDate, endDate) {
-    throw new Error('Not implemented');
+  let seconds = (endDate - startDate - 0.001) / 1000
+    let minutes = seconds / 60;
+    let hours = minutes / 60;
+    let days = hours / 24;
+    let months = days / 30;
+    let years = months / 12;
+
+    if (days > 545) return Math.round(years) + ' years ago';
+    if (days > 345) return 'a year ago';
+    if (days > 45) return Math.round(months) + ' months ago';
+    if (days > 25) return 'a month ago';
+    if (hours > 36) return Math.round(days) + ' days ago';
+    if (hours > 22) return 'a day ago';
+    if (minutes > 90) return Math.round(hours) + ' hours ago';
+    if (minutes > 45) return 'an hour ago';
+    if (seconds > 90) return Math.round(minutes) + ' minutes ago';
+    if (seconds > 45) return 'a minute ago';
+    return 'a few seconds ago';
+
 }
 
 /**
@@ -403,7 +440,7 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    throw new Error('Not implemented');
+return num.toString(n);
 }
 
 
@@ -420,7 +457,29 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-    throw new Error('Not implemented');
+  if (pathes.length == 1) return pathes[0];
+    for (let i = 0; i < pathes.length; i++) {
+        pathes[i] = pathes[i].split('/');
+    }
+
+    let same = true;
+    let count = 0;
+    let result = "";
+
+    while (same && count < pathes[0].length) {
+        let first = pathes[0][count];
+        for (let i = 1; i < pathes.length; i++) {
+            if (! (pathes[i][count] == first)) {
+                same = false;
+                break;
+            }
+        }
+        if (same) {
+            result += first + '/';
+        }
+        count++;
+    }
+    return result;
 }
 
 
@@ -443,62 +502,88 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+  let resultMatrix = [];
+      let height = m1.length;
+      let width = m2[0].length;
+      let count = m1[0].length;
+
+      for (let row = 0; row < height; row ++) {
+          let newRow = [];
+          for (let column = 0; column < width; column++) {
+              let sum = 0;
+              for (let i = 0; i < count; i ++) {
+                  sum += m1[row][i] * m2[i][column];
+              }
+              newRow.push(sum);
+          }
+          resultMatrix.push(newRow);
+      }
+      return resultMatrix;
 }
 
+ /**
+  * Возвращает результат игры крестики-нолики для текущих позиций 'X', 'O'
+  * Более подробное описание: https://en.wikipedia.org/wiki/Tic-tac-toe
+  *
+  * Позиции X и O представлены в виде матрицы 3x3 cо значениями: 'X','0', undefined
+  * Функция должна возвращать победиля игры по текущей позиции.
+  * Результат должен быть в виде: 'X' или '0' или undefined
+  *
+  * @param {array} position
+  * @return {string}
+  *
+  * @example
+  *
+  *   [[ 'X',   ,'0' ],
+  *    [    ,'X','0' ],       =>  'X'
+  *    [    ,   ,'X' ]]
+  *
+  *   [[ '0','0','0' ],
+  *    [    ,'X',    ],       =>  '0'
+  *    [ 'X',   ,'X' ]]
+  *
+  *   [[ '0','X','0' ],
+  *    [    ,'X',    ],       =>  undefined
+  *    [ 'X','0','X' ]]
+  *
+  *   [[    ,   ,    ],
+  *    [    ,   ,    ],       =>  undefined
+  *    [    ,   ,    ]]
+  *
+  */
+ function evaluateTicTacToePosition(position) {
+     if( position[0][0] && (position[0][0] == position[1][1]) && (position[0][0] == position[2][2]) )
+         return position[0][0];
+     if( position[0][2] && (position[0][2] == position[1][1]) && (position[0][2] == position[2][0]) )
+         return position[0][2];
 
-/**
- * Возвращает результат игры крестики-нолики для текущих позиций 'X', 'O'
- * Более подробное описание: https://en.wikipedia.org/wiki/Tic-tac-toe
- *
- * Позиции X и O представлены в виде матрицы 3x3 cо значениями: 'X','0', undefined
- * Функция должна возвращать победиля игры по текущей позиции.
- * Результат должен быть в виде: 'X' или '0' или undefined
- *
- * @param {array} position
- * @return {string}
- *
- * @example
- *
- *   [[ 'X',   ,'0' ],
- *    [    ,'X','0' ],       =>  'X'
- *    [    ,   ,'X' ]]
- *
- *   [[ '0','0','0' ],
- *    [    ,'X',    ],       =>  '0'
- *    [ 'X',   ,'X' ]]
- *
- *   [[ '0','X','0' ],
- *    [    ,'X',    ],       =>  undefined
- *    [ 'X','0','X' ]]
- *
- *   [[    ,   ,    ],
- *    [    ,   ,    ],       =>  undefined
- *    [    ,   ,    ]]
- *
- */
-function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
-}
+     for(let i = 0; i < position.length; i++) {
+         if( position[i][0] && (position[i][0] == position[i][1]) && (position[i][0] == position[i][2]) )
+             return position[i][1];
+         if ( position[0][i] && (position[0][i] == position[1][i]) && (position[0][i] == position[2][i]) )
+             return position[1][i];
+     }
+    return undefined;
+ }
 
 
-module.exports = {
-    getFizzBuzz: getFizzBuzz,
-    getFactorial: getFactorial,
-    getSumBetweenNumbers: getSumBetweenNumbers,
-    isTriangle: isTriangle,
-    doRectanglesOverlap: doRectanglesOverlap,
-    isInsideCircle: isInsideCircle,
-    findFirstSingleChar: findFirstSingleChar,
-    getIntervalString : getIntervalString,
-    reverseString: reverseString,
-    reverseInteger: reverseInteger,
-    isCreditCardNumber: isCreditCardNumber,
-    getDigitalRoot: getDigitalRoot,
-    isBracketsBalanced: isBracketsBalanced,
-    timespanToHumanString : timespanToHumanString,
-    toNaryString: toNaryString,
-    getCommonDirectoryPath: getCommonDirectoryPath,
-    getMatrixProduct: getMatrixProduct,
-    evaluateTicTacToePosition : evaluateTicTacToePosition
-};
+ module.exports = {
+     getFizzBuzz: getFizzBuzz,
+     getFactorial: getFactorial,
+     getSumBetweenNumbers: getSumBetweenNumbers,
+     isTriangle: isTriangle,
+     doRectanglesOverlap: doRectanglesOverlap,
+     isInsideCircle: isInsideCircle,
+     findFirstSingleChar: findFirstSingleChar,
+     getIntervalString : getIntervalString,
+     reverseString: reverseString,
+     reverseInteger: reverseInteger,
+     isCreditCardNumber: isCreditCardNumber,
+     getDigitalRoot: getDigitalRoot,
+     isBracketsBalanced: isBracketsBalanced,
+     timespanToHumanString : timespanToHumanString,
+     toNaryString: toNaryString,
+     getCommonDirectoryPath: getCommonDirectoryPath,
+     getMatrixProduct: getMatrixProduct,
+     evaluateTicTacToePosition : evaluateTicTacToePosition
+ };
