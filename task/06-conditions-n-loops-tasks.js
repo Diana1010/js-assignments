@@ -30,7 +30,14 @@
  *
  */
 function getFizzBuzz(num) {
-    throw new Error('Not implemented');
+  let res = '';
+  if (num % 3 == 0) {
+      res += 'Fizz';
+  }
+  if (num % 5 == 0) {
+      res +='Buzz';
+  }
+  return res || num;
 }
 
 
@@ -46,7 +53,11 @@ function getFizzBuzz(num) {
  *   10 => 3628800
  */
 function getFactorial(n) {
-    throw new Error('Not implemented');
+  let factorial = 1;
+ for (let i = 1; i <= n; i++) {
+     factorial *= i;
+ }
+ return factorial;
 }
 
 
@@ -63,7 +74,10 @@ function getFactorial(n) {
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
 function getSumBetweenNumbers(n1, n2) {
-    throw new Error('Not implemented');
+  for (let i = n1 + 1; i <= n2; i++) {
+      n1 += i;
+  }
+  return n1;
 }
 
 
@@ -83,7 +97,7 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,10,10 =>  true
  */
 function isTriangle(a,b,c) {
-    throw new Error('Not implemented');
+  return (a + b) > c && (a + c) > b && (b + c) > a;
 }
 
 
@@ -120,7 +134,13 @@ function isTriangle(a,b,c) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-    throw new Error('Not implemented');
+   let flag=(
+       rect1.top + rect1.height < rect2.top ||
+       rect2.top + rect2.height < rect1.top ||
+       rect1.left + rect1.width < rect2.left ||
+       rect2.left + rect2.width < rect1.left
+   );
+   return !flag;
 }
 
 
@@ -151,7 +171,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *
  */
 function isInsideCircle(circle, point) {
-    throw new Error('Not implemented');
+  return Math.sqrt(Math.pow(point.x - circle.center.x, 2)+ Math.pow(point.y - circle.center.y, 2)) < circle.radius;
 }
 
 
