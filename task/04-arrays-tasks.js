@@ -528,7 +528,11 @@ function distinct(arr) {
  *   }
  */
 function group(array, keySelector, valueSelector) {
-   throw new Error('Not implemented');
+  var m = new Map();
+   array.map( key => {
+           m.set(keySelector(key), (m.get(keySelector(key)) === undefined ? [] : m.get(keySelector(key))).concat([valueSelector(key)]));
+   });
+   return m;
 }
 
 /**
@@ -544,7 +548,7 @@ function group(array, keySelector, valueSelector) {
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-    throw new Error('Not implemented');
+    return arr.reduce((a, b) => a.concat(childrenSelector(b)), []);
 }
 
 /**
@@ -561,8 +565,9 @@ function selectMany(arr, childrenSelector) {
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
 function getElementByIndexes(arr, indexes) {
-    throw new Error('Not implemented');
-}
+  indexes.map((element) => { arr = arr[element]; });
+    return arr;
+  }
 
 
 /**
@@ -584,7 +589,16 @@ function getElementByIndexes(arr, indexes) {
  *
  */
 function swapHeadAndTail(arr) {
-    throw new Error('Not implemented');
+  let len = arr.length;
+  let head = arr.slice(0, len / 2);
+  if (len % 2 == 0) {
+      let tail = arr.slice(len / 2);
+      return tail.concat(head);
+  } else {
+      let center = arr.slice(len / 2, len / 2 + 1);
+      let tail = arr.slice(len / 2 + 1);
+      return tail.concat(center).concat(head);
+  }
 }
 
 
