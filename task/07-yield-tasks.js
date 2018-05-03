@@ -175,7 +175,17 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+  let curr1 = source1(), curr2 = source2();
+  let next1 = curr1.next(), next2 = curr2.next();
+  while (!next1.done || !next2.done) {
+      if (next1.value < next2.value || next2.done) {
+          yield next1.value;
+          next1 = curr1.next();
+      } else {
+          yield next2.value;
+          next2 = curr2.next();
+      }
+}
 }
 
 
